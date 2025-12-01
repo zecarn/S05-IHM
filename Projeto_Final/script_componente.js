@@ -30,13 +30,24 @@ class AulasComponent extends HTMLElement {
       this.shadowRoot.innerHTML += `
         <div class="container-aulas">
           ${aulasDia.map(a => {
-            // Se tiver prova, exibe a barra de alerta
+            // Lógica da Barra de Alerta
             let alertBar = a.prova_alert 
                 ? `<div class="alert-bar">PROVA: ${a.prova}</div>` 
                 : '';
             
-            // Classe extra se tiver alerta para ajustar padding
             let cardClass = a.prova_alert ? 'card-aula com-alerta' : 'card-aula';
+
+            // --- Lógica de Cores da Nota ---
+            const notaValor = parseFloat(a.nota);
+            let corNotaClass = '';
+
+            if (notaValor < 6) {
+                corNotaClass = 'grade-red';
+            } else if (notaValor >= 6 && notaValor < 8) {
+                corNotaClass = 'grade-orange';
+            } else {
+                corNotaClass = 'grade-green';
+            }
 
             return `
               <div class="${cardClass}">
@@ -45,8 +56,8 @@ class AulasComponent extends HTMLElement {
                     <div class="titulo_aula">${a.disciplina}</div>
                     <p class="info-local">Local e Horário: <b>${a.local} - ${a.horario}</b></p>
                     <div class="lables">
-                    <div class="lable-pill">FALTAS: ${a.frequencia}</div>
-                    <div class="lable-pill">CR: ${a.nota}</div>
+                        <div class="lable-pill">FALTAS: ${a.frequencia}</div>
+                        <div class="lable-pill lable-nota ${corNotaClass}">CR: ${a.nota}</div>
                     </div>
                 </div>
               </div>

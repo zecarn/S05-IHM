@@ -22,7 +22,6 @@ function temaInatel() {
     document.documentElement.style.setProperty('--cor-back1', '#edf2f4');
     document.documentElement.style.setProperty('--cor-back2', '#6a937a');
     document.documentElement.style.setProperty('--md-sys-color-primary', '#126ae2');
-  
 }
 
 function temaDark() {
@@ -89,7 +88,7 @@ const carousel = document.querySelector('.carousel');
 function createCards() {
     eventos.forEach(event => {
         const card = document.createElement('div');
-        card.classList.add('card-event'); // Alterado para card-event
+        card.classList.add('card-event'); 
         card.innerHTML = `
             <img src="${event.image}" alt="${event.title}">
             <div class="info">
@@ -128,17 +127,53 @@ function updateCarousel() {
     carousel.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// Adicionando interatividade
-document.getElementById('nextBtn').addEventListener('click', nextCard);
-document.getElementById('prevBtn').addEventListener('click', prevCard);
+// --- NOVAS FUNCIONALIDADES: AUTO PLAY & PAUSE ---
+
+let autoPlayInterval;
+const carouselContainer = document.querySelector('.carousel-container');
+
+// Inicia o loop de 5 segundos
+function startAutoPlay() {
+    // Garante que não criamos múltiplos intervalos
+    stopAutoPlay();
+    autoPlayInterval = setInterval(nextCard, 5000);
+}
+
+// Para o loop
+function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+}
+
+// Eventos para pausar quando o mouse estiver em cima
+carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+carouselContainer.addEventListener('mouseleave', startAutoPlay);
+
+// Inicia o carrossel automaticamente ao carregar
+startAutoPlay();
+
+// --- FIM NOVAS FUNCIONALIDADES ---
+
+// Adicionando interatividade aos botões
+document.getElementById('nextBtn').addEventListener('click', () => {
+    nextCard();
+    // Reinicia o timer para não pular logo em seguida se o usuário clicar
+    startAutoPlay(); 
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+    prevCard();
+    startAutoPlay();
+});
 
 // Arrastar no celular
 let startX;
 carousel.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
+    stopAutoPlay(); // Pausa enquanto arrasta
 });
 carousel.addEventListener('touchend', (e) => {
     let endX = e.changedTouches[0].clientX;
     if (startX - endX > 50) nextCard();
     if (endX - startX > 50) prevCard();
+    startAutoPlay(); // Retoma
 });
