@@ -89,13 +89,20 @@ const carousel = document.querySelector('.carousel');
 function createCards() {
     eventos.forEach(event => {
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('card-event'); // Alterado para card-event
         card.innerHTML = `
             <img src="${event.image}" alt="${event.title}">
             <div class="info">
                 <h3>${event.title}</h3>
                 <p>${event.description}</p>
-                <p><span class="material-symbols-outlined icon">event</span> ${event.date} às ${event.time} <span class="material-symbols-outlined icon">pin_drop</span> ${event.location}</p>
+                <p style="margin-top:10px; color:#126ae2; font-weight:bold;">
+                    <span class="material-symbols-outlined icon" style="font-size:16px; vertical-align:text-bottom;">calendar_month</span> 
+                    ${event.date} às ${event.time}
+                </p>
+                <p style="color:#555; font-size:9pt;">
+                    <span class="material-symbols-outlined icon" style="font-size:16px; vertical-align:text-bottom;">location_on</span> 
+                    ${event.location}
+                </p>
             </div>
         `;
         carousel.appendChild(card);

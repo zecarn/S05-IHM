@@ -28,17 +28,26 @@ class AulasComponent extends HTMLElement {
       this.shadowRoot.appendChild(link); 
   
       this.shadowRoot.innerHTML += `
-        <div>
+        <div class="container-aulas">
           ${aulasDia.map(a => {
-            let provaDisplay = a.prova_alert ? '' : 'display: none;';
+            // Se tiver prova, exibe a barra de alerta
+            let alertBar = a.prova_alert 
+                ? `<div class="alert-bar">PROVA: ${a.prova}</div>` 
+                : '';
+            
+            // Classe extra se tiver alerta para ajustar padding
+            let cardClass = a.prova_alert ? 'card-aula com-alerta' : 'card-aula';
+
             return `
-              <div class="comp-aula">
-                <div class="lable-prova p_lable" style="${provaDisplay}">PROVA: <b>${a.prova}</b></div>
-                <div class="titulo_aula">${a.disciplina}</div>
-                <p class="p">Local e Horário: <b>${a.local} - ${a.horario}</b></p>
-                <div class="lables">
-                  <div class="lable-frequencia p_lable">FALTAS: <b>${a.frequencia}</b></div>
-                  <div class="lable-nota p_lable">CR: <b>${a.nota}</b></div>
+              <div class="${cardClass}">
+                ${alertBar}
+                <div class="conteudo-aula">
+                    <div class="titulo_aula">${a.disciplina}</div>
+                    <p class="info-local">Local e Horário: <b>${a.local} - ${a.horario}</b></p>
+                    <div class="lables">
+                    <div class="lable-pill">FALTAS: ${a.frequencia}</div>
+                    <div class="lable-pill">CR: ${a.nota}</div>
+                    </div>
                 </div>
               </div>
             `;
@@ -46,6 +55,6 @@ class AulasComponent extends HTMLElement {
         </div>
       `;
     }
-  }
+}
   
-  customElements.define('aulas-component', AulasComponent);  
+customElements.define('aulas-component', AulasComponent);
