@@ -7,12 +7,12 @@ function closeMenu() {
 }
 
 function temaLim() {
-    document.documentElement.style.setProperty('--cor-click', '#38184C');
+    document.documentElement.style.setProperty('--cor-click', '#389625ff');
     document.documentElement.style.setProperty('--cor-sombra', '#9b0a59');
     document.documentElement.style.setProperty('--cor-text', 'black');
     document.documentElement.style.setProperty('--cor-back1', '#CEF09D');
     document.documentElement.style.setProperty('--cor-back2', '#4f6a93');
-    document.documentElement.style.setProperty('--md-sys-color-primary', '#38184C');
+    document.documentElement.style.setProperty('--md-sys-color-primary', '#267a23ff');
 }
 
 function temaInatel() {
@@ -27,12 +27,12 @@ function temaInatel() {
 
 function temaDark() {
     const cores = {
-        '--cor-click': '#CEF09D',
-        '--cor-sombra': '#9b0a59',
+        '--cor-click': '#000000ff',
+        '--cor-sombra': '#8d8d8dff',
         '--cor-text': 'black',
-        '--cor-back1': '#38184C',
-        '--cor-back2': '#4f6a93',
-        '--md-sys-color-primary': '#CEF09D'
+        '--cor-back1': '#000000ff',
+        '--cor-back2': '#0b1018ff',
+        '--md-sys-color-primary': '#5a5a5aff'
     };
 
     for (const [variavel, valor] of Object.entries(cores)) {
