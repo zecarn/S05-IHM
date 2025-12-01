@@ -39,6 +39,110 @@ function temaDark() {
     }
 }
 
+// ===== FUNCIONALIDADE DO CHAT DE INTERCÂMBIO =====
+
+let chatDisponivel = null;
+let chatMessages = [];
+
+function openIntercambioChat() {
+    const modal = document.getElementById("chat-modal");
+    const chatBody = document.getElementById("chat-body");
+    const chatFooter = document.getElementById("chat-footer");
+    
+    // Gera aleatoriamente se o chat está disponível (1) ou não (2)
+    chatDisponivel = Math.random() < 0.5 ? 1 : 2;
+    
+    // Limpa mensagens anteriores
+    chatBody.innerHTML = '';
+    chatFooter.innerHTML = '';
+    chatMessages = [];
+    
+    if (chatDisponivel === 1) {
+        // Chat disponível - mostra mensagem inicial e campo de input
+        addBotMessage("Olá! Em que posso te ajudar?");
+        
+        chatFooter.innerHTML = `
+            <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
+            <button onclick="sendMessage()">Enviar</button>
+        `;
+        
+        // Permite enviar com Enter
+        document.getElementById("chat-input").addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    } else {
+        // Chat indisponível - mostra mensagem de indisponibilidade
+        chatBody.innerHTML = `
+            <div class="unavailable-message">
+                Estou indisponível no momento, favor aguardar ou mandar e-mail para 
+                <strong>Rosilene@intercambio.br</strong>
+            </div>
+        `;
+    }
+    
+    modal.style.display = "block";
+}
+
+function closeIntercambioChat() {
+    document.getElementById("chat-modal").style.display = "none";
+}
+
+function addBotMessage(text) {
+    const chatBody = document.getElementById("chat-body");
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message bot';
+    messageDiv.textContent = text;
+    chatBody.appendChild(messageDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    chatMessages.push({ sender: 'bot', text: text });
+}
+
+function addUserMessage(text) {
+    const chatBody = document.getElementById("chat-body");
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'chat-message user';
+    messageDiv.textContent = text;
+    chatBody.appendChild(messageDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    chatMessages.push({ sender: 'user', text: text });
+}
+
+function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const message = input.value.trim();
+    
+    if (message === '') return;
+    
+    // Adiciona mensagem do usuário
+    addUserMessage(message);
+    input.value = '';
+    
+    // Simula resposta do bot após 1 segundo
+    setTimeout(() => {
+        const respostas = [
+            "Entendo sua dúvida! Posso te ajudar com informações sobre intercâmbio.",
+            "Ótima pergunta! Deixe-me verificar isso para você.",
+            "Temos várias opções de intercâmbio disponíveis. Poderia me dar mais detalhes?",
+            "Vou encaminhar sua solicitação para nossa equipe especializada!",
+            "Que interessante! Temos programas em diversos países."
+        ];
+        const resposta = respostas[Math.floor(Math.random() * respostas.length)];
+        addBotMessage(resposta);
+    }, 1000);
+}
+
+// Fecha o modal ao clicar fora dele
+window.onclick = function(event) {
+    const modal = document.getElementById("chat-modal");
+    if (event.target === modal) {
+        closeIntercambioChat();
+    }
+}
+
+// ===== CARROSSEL (mantido do código original) =====
+
 const eventos = [
     {
         id: 1,
@@ -84,7 +188,6 @@ const eventos = [
 
 const carousel = document.querySelector('.carousel');
 
-// Função para criar os cards
 function createCards() {
     eventos.forEach(event => {
         const card = document.createElement('div');
@@ -108,10 +211,8 @@ function createCards() {
     });
 }
 
-// Inicializando
 createCards();
 
-// Controle do carrossel
 let index = 0;
 function nextCard() {
     index = (index + 1) % eventos.length;
@@ -127,36 +228,25 @@ function updateCarousel() {
     carousel.style.transform = `translateX(-${index * 100}%)`;
 }
 
-// --- NOVAS FUNCIONALIDADES: AUTO PLAY & PAUSE ---
-
 let autoPlayInterval;
 const carouselContainer = document.querySelector('.carousel-container');
 
-// Inicia o loop de 5 segundos
 function startAutoPlay() {
-    // Garante que não criamos múltiplos intervalos
     stopAutoPlay();
     autoPlayInterval = setInterval(nextCard, 5000);
 }
 
-// Para o loop
 function stopAutoPlay() {
     clearInterval(autoPlayInterval);
 }
 
-// Eventos para pausar quando o mouse estiver em cima
 carouselContainer.addEventListener('mouseenter', stopAutoPlay);
 carouselContainer.addEventListener('mouseleave', startAutoPlay);
 
-// Inicia o carrossel automaticamente ao carregar
 startAutoPlay();
 
-// --- FIM NOVAS FUNCIONALIDADES ---
-
-// Adicionando interatividade aos botões
 document.getElementById('nextBtn').addEventListener('click', () => {
     nextCard();
-    // Reinicia o timer para não pular logo em seguida se o usuário clicar
     startAutoPlay(); 
 });
 
@@ -165,15 +255,14 @@ document.getElementById('prevBtn').addEventListener('click', () => {
     startAutoPlay();
 });
 
-// Arrastar no celular
 let startX;
 carousel.addEventListener('touchstart', (e) => {
     startX = e.touches[0].clientX;
-    stopAutoPlay(); // Pausa enquanto arrasta
+    stopAutoPlay();
 });
 carousel.addEventListener('touchend', (e) => {
     let endX = e.changedTouches[0].clientX;
     if (startX - endX > 50) nextCard();
     if (endX - startX > 50) prevCard();
-    startAutoPlay(); // Retoma
+    startAutoPlay();
 });
