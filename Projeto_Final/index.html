@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Dashboard App Inatel </title>
     <link rel="stylesheet" href="styles_guia.css">
+    <link rel="stylesheet" href="styles_componente.css">
 </head>
 <body>
   <div id="menu_aba">
@@ -24,22 +25,29 @@ menu
     <div id="mensagens">
       <div id="user_name" class="font">Olá Raphael!</div>
       <div id="mns_box">
-        <div id="icon"><span class="material-symbols-outlined icoP">
-notifications_active</span></div>
+        <div id="icon"><span class="material-symbols-outlined icoP">notifications_active</span></div>
         <div id="mns" class="font">Você possui um armário reservado com entrega para hoje...</div>
       </div>
       <div id="mns_box">
-        <div id="icon"><span class="material-symbols-outlined icoP">
-mail</span></div>
+        <div id="icon"><span class="material-symbols-outlined icoP">mail</span></div>
         <div id="mns" class="font">Você possui uma pendência no financeiro...</div>
       </div>
     </div>
-    </div>
+    
   
-    <div id="componentes">
-      <md-filled-button>Botão</md-filled-button>
-      
-    </div>  
+    <div id="componentes"> <md-filled-button>Botão</md-filled-button> </div>  
+
+    <div class="carousel-container">
+      <div class="carousel">
+          <!-- Os cards deverão ser inseridos dinamicamente via JS -->
+      </div>
+      <button id="prevBtn">❮</button>
+      <button id="nextBtn">❯</button>
+  </div>  
   </main>
+
+  <aulas-component id="componente"></aulas-component>
+  <script src="script_componente.js"></script>
+
 </body>
 </html>
