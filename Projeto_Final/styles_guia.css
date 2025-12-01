@@ -34,6 +34,17 @@ header {
   cursor: pointer;
   display: flex;
   align-items: center;
+  gap: 5px;
+}
+
+#menu {
+  flex: 0 0 auto;
+}
+
+.chat-label {
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--cor-click);
 }
 
 #logo {
@@ -41,6 +52,18 @@ header {
   align-items: center;
   justify-content: center;
   flex: 1;
+}
+
+#chat-icon {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+#perfil {
+  flex: 0 0 auto;
 }
 
 .svg_logo { height: 25px; width: auto; }
